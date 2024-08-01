@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model skill_type {
+  name   String  @unique
+  id     Int     @id(map: "skill_type_pkey") @default(autoincrement())
+  skills skill[]
+}
+
+model jobs_per_day {
+  skill_id Int
+  date     DateTime @db.Date
+  count    Int      @default(0)
+  id       Int      @id(map: "jobs_per_day_pkey") @default(autoincrement())
+  skill    skill    @relation(fields: [skill_id], references: [id], onDelete: Cascade, map: "skill_fkey")
+}
+
+model skill {
+  name            String         @unique
+  id              Int            @id(map: "skill_pkey") @default(autoincrement())
+  skill_type_name String
+  skill_type      skill_type     @relation(fields: [skill_type_name], references: [name], onDelete: NoAction, map: "skill_type_fkey")
+  jobs_per_day    jobs_per_day[]
+}
+
+model count_jobs_read_per_day {
+  count Int      @default(0)
+  date  DateTime @unique @db.Date
+}

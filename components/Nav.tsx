@@ -1,16 +1,5 @@
-/** Add fonts into your Next.js project:
-
-import { Rethink_Sans } from 'next/font/google'
-
-rethink_sans({
-  subsets: ['latin'],
-  display: 'swap',
-})
-
-**/
 import { TooltipProvider } from '@/components/ui/tooltip';
-// import { LineChartIcon } from 'recharts';
-import { Home, LayoutDashboard, Settings, TrendingUp } from 'lucide-react';
+import { BarChart, Home, Percent, Settings, TrendingUp } from 'lucide-react';
 import { NavLink } from './NavLink';
 
 export function Nav() {
@@ -23,6 +12,9 @@ export function Nav() {
           </NavLink>
           <NavLink link="/trends" name="Trends">
             <TrendingUp></TrendingUp>
+          </NavLink>
+          <NavLink link="/top-charts" name="Top Charts">
+            <BarChart></BarChart>
           </NavLink>
         </TooltipProvider>
       </nav>
