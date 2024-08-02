@@ -22,11 +22,10 @@ model jobs_per_day {
 }
 
 model skill {
-  name            String         @unique
-  id              Int            @id(map: "skill_pkey") @default(autoincrement())
-  skill_type_name String
-  skill_type      skill_type     @relation(fields: [skill_type_name], references: [name], onDelete: NoAction, map: "skill_type_fkey")
-  jobs_per_day    jobs_per_day[]
+  name         String         @unique
+  id           Int            @id(map: "skill_pkey") @default(autoincrement())
+  skill_types  skill_type[]
+  jobs_per_day jobs_per_day[]
 }
 
 model count_jobs_read_per_day {

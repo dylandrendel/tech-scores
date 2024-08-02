@@ -1,6 +1,11 @@
 'use client';
 
-import { count_jobs_read_per_day, jobs_per_day, skill } from '@prisma/client';
+import {
+  count_jobs_read_per_day,
+  jobs_per_day,
+  skill,
+  skill_type,
+} from '@prisma/client';
 import { useMemo, useState } from 'react';
 import {
   BarChart,
@@ -26,6 +31,7 @@ import { intersection } from 'lodash';
 // extend the Skill type to include jobs_per_day
 interface SkillWithJobsPerDay extends skill {
   jobs_per_day: jobs_per_day[];
+  skill_types: skill_type[];
 }
 
 export function PercentsChartStacked(props: {
@@ -50,13 +56,13 @@ export function PercentsChartStacked(props: {
   const cutoffOptions = ['0', '1', '5', '10', '15', '20', '25'];
 
   const getFormattedDayString = (days: string) =>
-    days === '1' ? 'Yesterday' : `${days} Days`;
-
+    days === '1' ? 'Yesterday' : `${days} Days`;    
+    
   const mapSkillsToPercents = useMemo(
     () =>
       skills
         .map((skill) => {
-          const len = Math.min(skill.jobs_per_day.length, Number(days));
+          const len = Math.min(dayCounts.length, Number(days));
           const totalPercent = Number(
             (
               skill.jobs_per_day
@@ -77,7 +83,7 @@ export function PercentsChartStacked(props: {
           );
           return {
             skill: skill.name,
-            type: skill.skill_type_name,
+            types: skill.skill_types,
             percent: totalPercent,
           };
         })
@@ -96,7 +102,9 @@ export function PercentsChartStacked(props: {
   const skillsWithSelectedType = useMemo(
     () =>
       selectedType !== 'All'
-        ? mapSkillsToPercents.filter((skill) => skill.type === selectedType)
+        ? mapSkillsToPercents.filter((skill) =>
+            skill.types.some((t) => t.name === selectedType)
+          )
         : mapSkillsToPercents,
     [mapSkillsToPercents, selectedType]
   );

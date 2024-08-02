@@ -1,7 +1,7 @@
 import * as path from 'path';
 
 import { PrismaClient } from '@prisma/client';
-import { skills } from './skills';
+import { skillNames } from './skills';
 
 type Job = {
   title: string;
@@ -10,19 +10,19 @@ type Job = {
 
 async function checkAndAddJobsReadCount(
   prisma: PrismaClient,
-  today: Date,
+  date: Date,
   result: Job[]
 ) {
   const count = await prisma.count_jobs_read_per_day.findFirst({
     where: {
-      date: today,
+      date,
     },
   });
   if (!count) {
     await prisma.count_jobs_read_per_day.create({
       data: {
-        date: today,
-        count: result.length,
+        date,
+        count: result.length - 1, // account for the header
       },
     });
   } else {
@@ -115,35 +115,37 @@ export function checkSkillCases(name: string): RegExp {
   if (name === 'Problem Solver') {
     pattern = new RegExp('\\bProblem(?: )?(?:-)?Solv', 'i');
   }
+  if (name === 'Onsite') {
+    pattern = new RegExp('\\bOn(?:-)?site', 'i');
+  }
   return pattern;
 }
 
 export async function handleResult(
   prisma: PrismaClient,
   result: Job[],
-  today: Date
+  date: Date
 ) {
-  await checkAndAddJobsReadCount(prisma, today, result);
-  for (const skill of skills) {
-    const pattern = checkSkillCases(skill.name);
+  await checkAndAddJobsReadCount(prisma, date, result);
+  for (const name of skillNames) {
+    const pattern = checkSkillCases(name);
 
     const count = result.filter(
       (job) => pattern.test(job.description) || pattern.test(job.title)
     ).length;
 
-    console.log(skill.name, count);
+    console.log(name, count);
 
     await prisma.jobs_per_day.create({
       data: {
-        date: today,
+        date,
         skill: {
           connectOrCreate: {
             where: {
-              name: skill.name,
+              name,
             },
             create: {
-              name: skill.name,
-              skill_type_name: skill.skill_type_name,
+              name,
             },
           },
         },

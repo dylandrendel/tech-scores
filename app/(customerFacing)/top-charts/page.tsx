@@ -6,6 +6,7 @@ export default async function TopCharts() {
   const skills = await db.skill.findMany({
     include: {
       jobs_per_day: true,
+      skill_types: true,
     },
   });
   const skillTypes = await db.skill_type.findMany();
