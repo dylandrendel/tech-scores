@@ -93,6 +93,9 @@ export function PercentsChartStacked(props: {
     if (searchParams.has('search')) {
       setSearch(searchParams.get('search') ?? '');
     }
+  }, [searchParams]);
+
+  useEffect(() => {
     new ResizeObserver((entries) => {
       for (let entry of entries) {
         const cr = entry.contentRect;
