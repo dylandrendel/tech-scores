@@ -154,6 +154,7 @@ export function PercentsChartStacked(props: {
     () =>
       mapSkillsToPercents.filter((skill) =>
         skill.skill.toLowerCase().includes(searchParam ?? ''.toLowerCase())
+        skill.skill.toLowerCase().includes((searchParam ?? '').toLowerCase())
       ),
     [mapSkillsToPercents, searchParam]
   );
