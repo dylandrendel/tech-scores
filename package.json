@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "add_data": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/add_data.ts"
+    "add_data": "tsx data/add_data.ts"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
