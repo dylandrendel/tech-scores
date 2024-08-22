@@ -19,6 +19,10 @@ print(jobs.head())
 # # find jobs with React in the title or description
 # react_jobs = jobs[jobs["title"].str.contains("React", case=False) | jobs["description"].str.contains("React", case=False)]
 # print(f"Found {len(react_jobs)} React jobs")
+
+# map the jobs dataframe to only include the title and description columns
+jobs = jobs[["title", "description"]]
+
 # get today's date in the format YYYY-MM-DD
 today = datetime.datetime.now().strftime("%Y-%m-%d")
 jobs.to_csv(f"jobs_{today}.csv", quoting=csv.QUOTE_NONNUMERIC, escapechar="\\", index=False) # to_excel
