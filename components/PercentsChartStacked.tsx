@@ -153,7 +153,6 @@ export function PercentsChartStacked(props: {
   const searchFilteredSkills = useMemo(
     () =>
       mapSkillsToPercents.filter((skill) =>
-        skill.skill.toLowerCase().includes(searchParam ?? ''.toLowerCase())
         skill.skill.toLowerCase().includes((searchParam ?? '').toLowerCase())
       ),
     [mapSkillsToPercents, searchParam]
@@ -186,7 +185,7 @@ export function PercentsChartStacked(props: {
   const setSearchParam = useCallback(
     (val: string, key: searchParam) =>
       router.push(pathname + '?' + createQueryString(key, val)),
-    [pathname, createQueryString]
+    [pathname, createQueryString, router]
   );
 
   const displaySkills = useMemo(
@@ -214,7 +213,7 @@ export function PercentsChartStacked(props: {
     }, 200);
 
     return () => clearTimeout(debounce);
-  }, [search]);
+  }, [search, setSearchParam]);
 
   function handleClick(data: any, index: number) {
     const skill = encodeURIComponent(data.skill);
