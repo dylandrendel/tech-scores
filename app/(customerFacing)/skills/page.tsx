@@ -1,4 +1,4 @@
-import { PercentsChartStacked } from '@/components/PercentsChartStacked';
+import { PercentsChart } from '@/components/PercentsChart';
 import db from '@/db/db';
 import React from 'react';
 
@@ -12,7 +12,7 @@ export default async function Skills() {
   const skillTypes = await db.skill_type.findMany();
   const dayCounts = await db.count_jobs_read_per_day.findMany();
   return (
-    <PercentsChartStacked
+    <PercentsChart
       skills={skills}
       dayCounts={dayCounts}
       skillTypes={skillTypes}

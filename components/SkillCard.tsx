@@ -97,7 +97,7 @@ function LinechartChart(props: any) {
       >
         <LineChart
           accessibilityLayer
-          data={jobs}
+          data={jobs.sort((a: any, b: any) => a.date - b.date)}
           margin={{
             right: 12,
             top: 40,
