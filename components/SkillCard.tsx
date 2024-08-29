@@ -82,7 +82,10 @@ export function SkillCard(props: SkillCardProps) {
   );
 }
 
-function LinechartChart(props: any) {
+function LinechartChart(props: {
+  jobs: { date: Date; percent: string }[];
+  color: string;
+}) {
   const { jobs, color } = props;
 
   return (
@@ -97,7 +100,7 @@ function LinechartChart(props: any) {
       >
         <LineChart
           accessibilityLayer
-          data={jobs.sort((a: any, b: any) => a.date - b.date)}
+          data={jobs.sort((a, b) => a.date.getTime() - b.date.getTime())}
           margin={{
             right: 12,
             top: 40,

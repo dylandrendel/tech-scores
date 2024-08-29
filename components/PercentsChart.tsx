@@ -123,6 +123,7 @@ export function PercentsChart(props: {
           const len = Math.min(dayCounts.length, Number(daysParam));
           const totalPercent = Number(
             skill.jobs_per_day
+              .sort((a, b) => a.date.getTime() - b.date.getTime())
               .slice(-len)
               .reduce(
                 (acc, job) =>
