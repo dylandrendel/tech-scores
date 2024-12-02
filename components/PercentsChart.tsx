@@ -262,7 +262,7 @@ export function PercentsChart(props: {
             <Label htmlFor="days">Sample Size</Label>
             <Select
               onValueChange={(d) => setSearchParam(d, 'days')}
-              value={daysParam ?? defaultOption}
+              value={daysParam ?? defaultDayOption}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue />
