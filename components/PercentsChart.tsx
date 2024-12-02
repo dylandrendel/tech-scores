@@ -64,8 +64,12 @@ export function PercentsChart(props: {
 
   const searchParams = useSearchParams();
 
+  const defaultDayOption = '60';
+
   const color = searchParams.has('color') ? searchParams.get('color') : '1';
-  const daysParam = searchParams.has('days') ? searchParams.get('days') : '30';
+  const daysParam = searchParams.has('days')
+    ? searchParams.get('days')
+    : defaultDayOption;
   // const cutoffParam = searchParams.get('cutoff');
   const searchParam = searchParams.has('search')
     ? searchParams.get('search')
@@ -109,12 +113,32 @@ export function PercentsChart(props: {
 
   const typeOptions = ['All', ...skillTypes.map((type) => type.name)];
 
-  const dayOptions = ['1', '3', '5', '7', '14', '30'];
+  const dayOptions = ['1', '7', '14', '30', '60', '90', '180', '365'];
 
   // const cutoffOptions = ['0', '1', '5', '10', '15', '20', '25'];
 
-  const getFormattedDayString = (days: string) =>
-    days === '1' ? 'Yesterday' : `${days} Days`;
+  const getFormattedDayString = (days: string) => {
+    switch (days) {
+      case '1':
+        return '1 Day';
+      case '7':
+        return '1 Week';
+      case '14':
+        return '2 Weeks';
+      case '30':
+        return '1 Month';
+      case '60':
+        return '2 Months';
+      case '90':
+        return '3 Months';
+      case '180':
+        return '6 Months';
+      case '365':
+        return '1 Year';
+      default:
+        return '2 Months';
+    }
+  };
 
   const mapSkillsToPercents = useMemo(
     () =>
@@ -238,7 +262,7 @@ export function PercentsChart(props: {
             <Label htmlFor="days">Sample Size</Label>
             <Select
               onValueChange={(d) => setSearchParam(d, 'days')}
-              value={daysParam ?? '30'}
+              value={daysParam ?? defaultOption}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue />
