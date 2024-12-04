@@ -113,7 +113,7 @@ export function PercentsChart(props: {
 
   const typeOptions = ['All', ...skillTypes.map((type) => type.name)];
 
-  const dayOptions = ['1', '7', '14', '30', '60', '90', '180', '365'];
+  const dayOptions = ['1', '7', '14', '30', '60', '90'];
 
   // const cutoffOptions = ['0', '1', '5', '10', '15', '20', '25'];
 
@@ -131,10 +131,6 @@ export function PercentsChart(props: {
         return '2 Months';
       case '90':
         return '3 Months';
-      case '180':
-        return '6 Months';
-      case '365':
-        return '1 Year';
       default:
         return '2 Months';
     }
